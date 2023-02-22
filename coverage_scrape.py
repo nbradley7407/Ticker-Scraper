@@ -1,5 +1,6 @@
 import nltk
 from newspaper import Article
+from newspaper import ArticleException
 import time
 from selenium import webdriver
 from selenium.common.exceptions import StaleElementReferenceException
@@ -34,7 +35,7 @@ my_tickers = [
     "TSLA",
     "TSM",
     "RBLX",
-    ]
+]
 
 
 service = Service('chromedriver.exe')
@@ -45,15 +46,18 @@ wait = WebDriverWait(driver, 60.0)
 
 def get_summary(article):
     a = Article(article)
-    a.download()
-    a.parse()
-    a.nlp()
-    return a.text, a.summary, a.publish_date
+    try:
+        a.download()
+        a.parse()
+        a.nlp()
+        return f'Headline: {a.title}', f'Date: {a.publish_date}',
+    except ArticleException:
+        print(f"Error getting summary")
 
 
 
 
-def scrape_sa(ticker):
+def scrape(ticker):
     driver.get(f'https://www.google.com/search?q={ticker}+stock&hl=en&tbm'
                f'=nws&source=lnt&tbs=sbd:1&sa=X&ved=2ahUKEwitoYTL16n9AhVNP'
                f'n0KHbyMBE4QpwV6BAgBECE&biw=2067&bih=2007&dpr=1')
@@ -67,10 +71,9 @@ with open('summaries.txt', 'w') as f:     # clear the text file
 
 
 for i in my_tickers:
-    url = scrape_sa(i)
-    summary = get_summary(url)
+    url = scrape(i)
     with open('summaries.txt', 'a') as f:
         f.write(f'{i}\n')
-        f.write(f'{summary}\n\n')
-    time.sleep(2)
+        f.write(f'{get_summary(url)}\n\n')
+        f.write(url)
 f.close()
