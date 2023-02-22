@@ -21,7 +21,6 @@ my_tickers = [
     "CVNA",
     "DCBO",
     "F",
-    "GOOG",
     "GOOGL",
     "HD",
     "INTA",
@@ -50,7 +49,8 @@ def get_summary(article):
         a.download()
         a.parse()
         a.nlp()
-        return f'Headline: {a.title}', f'Date: {a.publish_date}',
+        return f'Headline: {a.title}',\
+               f'Day: {a.publish_date}'
     except ArticleException:
         print(f"Error getting summary")
 
@@ -74,6 +74,6 @@ for i in my_tickers:
     url = scrape(i)
     with open('summaries.txt', 'a') as f:
         f.write(f'{i}\n')
-        f.write(f'{get_summary(url)}\n\n')
-        f.write(url)
+        f.write(f'{get_summary(url)}\n')
+        f.write(f'{url}\n\n')
 f.close()
