@@ -64,7 +64,7 @@ def scrape(ticker):
     first_article = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "WlydOe")))
     article_url = first_article.get_attribute('href')
     return article_url
-
+# get elements, loop through range(2)
 
 with open('summaries.txt', 'w') as f:     # clear the text file
     f.close()
