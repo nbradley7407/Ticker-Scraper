@@ -44,7 +44,7 @@ driver = webdriver.Remote(service.service_url)
 wait = WebDriverWait(driver, 60.0)
 
 
-def get_summary(article):
+def get_info(article):
     a = Article(article)
     try:
         a.download()
@@ -62,11 +62,24 @@ def scrape(ticker):
                f'n0KHbyMBE4QpwV6BAgBECE&biw=2067&bih=2007&dpr=1')
     wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "WlydOe")))
     article_elements = driver.find_elements(By.CLASS_NAME, "WlydOe")
+    article_titles = []
+    article_dates = []
     article_urls = []
     for element in article_elements[:3]:
+        # get title
+        title_element = element.find_element(By.XPATH, "//*[@id=\"rso\"]/div/div/div[1]/div/div/a/div/div[2]/div[2]")
+        title = title_element.get_attribute("innerHTML")
+        article_titles.append(title)
+
+        # get date
+        date_element = element.find_element(By.TAG_NAME, "span")
+        date = date_element.get_attribute("span")
+        article_dates.append(date)
+
+        # get url
         href = element.get_attribute('href')
         article_urls.append(href)
-    return article_urls
+    return [article_titles, article_dates, article_urls]
 
 
 with open('summaries.txt', 'w') as f:     # clear the text file
@@ -74,11 +87,11 @@ with open('summaries.txt', 'w') as f:     # clear the text file
 
 
 for i in my_tickers:
-    urls = scrape(i)
-    print(urls)
+    data = scrape(i)
     with open('summaries.txt', 'a') as f:
         f.write(f'{i}\n')
-        for url in urls:
-            f.write(f'{get_summary(url)}\n')
-            f.write(f'{url}\n\n')
+        f.write(f'{data}')
+        #for url in urls:
+            #f.write(f'{get_info(url)}\n')
+            #f.write(f'{url}\n\n')
 f.close()
