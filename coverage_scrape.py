@@ -41,8 +41,7 @@ wait = WebDriverWait(driver, 60.0)
 
 
 def get_title(element):
-    title_element = element.find_element(By.XPATH, "//*[@id=\"rso\"]/div/div/div[1]/div/div/a/div/div[2]/div[2]")
-    title = title_element.get_attribute("innerHTML")
+    title = element.get_attribute("innerHTML")
     return title
 
 
@@ -52,15 +51,18 @@ def get_url(element):
 
 
 def get_date(element):
-    date_element = element.find_element(By.XPATH, "//*[@id=\"rso\"]/div/div/div[1]/div/div/a/div/div[2]/div[4]")
-    date = date_element.get_attribute("innerHTML")
-    return date
+    date_string = element.get_attribute("innerHTML")
+    return date_string
 
+def scrape_dates():
+    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".OSrXXb.ZE0LJd.YsWzw")))
+    article_dates = driver.find_elements(By.CSS_SELECTOR, ".OSrXXb.ZE0LJd.YsWzw")
+    return article_dates[:3]
 
-def scrape_info():
-    wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "iRPxbe")))
-    article_info = driver.find_elements(By.CLASS_NAME, "iRPxbe")
-    return article_info[:3]
+def scrape_titles():
+    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".mCBkyc.ynAwRc.MBeuO.nDgy9d")))
+    article_titles = driver.find_elements(By.CSS_SELECTOR, ".mCBkyc.ynAwRc.MBeuO.nDgy9d")
+    return article_titles[:3]
 
 def scrape_urls():
     wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "WlydOe")))
@@ -79,10 +81,11 @@ with open('summaries.txt', 'a') as f:     # main
                    f'n0KHbyMBE4QpwV6BAgBECE&biw=2067&bih=2007&dpr=1')
         f.write(f'{i}\n')
         url_element = scrape_urls()
-        info_element = scrape_info()
-        for url, info in zip(url_element, info_element):
-            f.write(f'{get_title(info)}\n')
-            f.write(f'{get_date(info)}\n')
-            f.write(f'{get_url(url)}\n')
-        f.write('\n\n')
+        title_element = scrape_titles()
+        date_element = scrape_dates()
+        for url, title, date in zip(url_element, title_element, date_element):
+            f.write(f'{get_title(title)}\n')
+            f.write(f'{get_date(date)}\n')
+            f.write(f'{get_url(url)}\n\n')
+        f.write('\n\n\n')
 f.close()
