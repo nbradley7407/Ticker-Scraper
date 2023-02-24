@@ -1,2 +1,2 @@
 # ticker_scraper
-grabs headline, date, and url of most recent article on given tickers from Google
+Grabs title, date, and url of 3 most recent article on given tickers from Google
