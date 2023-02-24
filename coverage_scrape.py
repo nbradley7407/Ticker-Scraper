@@ -45,24 +45,27 @@ def get_title(element):
     return title
 
 
+def get_date(element):
+    date_string = element.get_attribute("innerHTML")
+    return date_string
+
+
 def get_url(element):
     url_string = element.get_attribute('href')
     return url_string
 
 
-def get_date(element):
-    date_string = element.get_attribute("innerHTML")
-    return date_string
+def scrape_titles():
+    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".mCBkyc.ynAwRc.MBeuO.nDgy9d")))
+    article_titles = driver.find_elements(By.CSS_SELECTOR, ".mCBkyc.ynAwRc.MBeuO.nDgy9d")
+    return article_titles[:3]
+
 
 def scrape_dates():
     wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".OSrXXb.ZE0LJd.YsWzw")))
     article_dates = driver.find_elements(By.CSS_SELECTOR, ".OSrXXb.ZE0LJd.YsWzw")
     return article_dates[:3]
 
-def scrape_titles():
-    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".mCBkyc.ynAwRc.MBeuO.nDgy9d")))
-    article_titles = driver.find_elements(By.CSS_SELECTOR, ".mCBkyc.ynAwRc.MBeuO.nDgy9d")
-    return article_titles[:3]
 
 def scrape_urls():
     wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "WlydOe")))
@@ -70,22 +73,24 @@ def scrape_urls():
     return article_urls[:3]
 
 
-with open('summaries.txt', 'w') as f:     # clear the text file
+def main():
+    with open('summaries.txt', 'w') as f:     # clear the text file
+        f.close()
+    with open('summaries.txt', 'a') as f:     # main
+        for i in my_tickers:
+            driver.get(f'https://www.google.com/search?q={i}+stock&hl=en&tbm'
+                       f'=nws&source=lnt&tbs=sbd:1&sa=X&ved=2ahUKEwitoYTL16n9AhVNP'
+                       f'n0KHbyMBE4QpwV6BAgBECE&biw=2067&bih=2007&dpr=1')
+            f.write(f'{i}\n')
+            url_element = scrape_urls()
+            title_element = scrape_titles()
+            date_element = scrape_dates()
+            for url, title, date in zip(url_element, title_element, date_element):
+                f.write(f'{get_title(title)}\n')
+                f.write(f'{get_date(date)}\n')
+                f.write(f'{get_url(url)}\n\n')
+            f.write('\n\n\n')
     f.close()
 
 
-with open('summaries.txt', 'a') as f:     # main
-    for i in my_tickers:
-        driver.get(f'https://www.google.com/search?q={i}+stock&hl=en&tbm'
-                   f'=nws&source=lnt&tbs=sbd:1&sa=X&ved=2ahUKEwitoYTL16n9AhVNP'
-                   f'n0KHbyMBE4QpwV6BAgBECE&biw=2067&bih=2007&dpr=1')
-        f.write(f'{i}\n')
-        url_element = scrape_urls()
-        title_element = scrape_titles()
-        date_element = scrape_dates()
-        for url, title, date in zip(url_element, title_element, date_element):
-            f.write(f'{get_title(title)}\n')
-            f.write(f'{get_date(date)}\n')
-            f.write(f'{get_url(url)}\n\n')
-        f.write('\n\n\n')
-f.close()
+main()
