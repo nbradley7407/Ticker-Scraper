@@ -46,7 +46,9 @@ def get_title(element):
 
 
 def get_date(element):
-    date_string = element.get_attribute("innerHTML")
+    date_string = str(element.get_attribute("innerHTML"))
+    date_string = date_string.removeprefix('<span>')
+    date_string = date_string.removesuffix('</span>')
     return date_string
 
 
