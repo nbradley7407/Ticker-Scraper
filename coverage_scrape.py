@@ -41,8 +41,13 @@ wait = WebDriverWait(driver, 60.0)
 
 
 def get_title(element):
-    title = element.get_attribute("innerHTML")
-    return title
+    title_string = element.get_attribute("innerHTML")
+    return title_string
+
+
+def get_blurb(element):
+    blurb_string = element.get_attribute("innerHTML")
+    return blurb_string
 
 
 def get_date(element):
@@ -62,6 +67,11 @@ def scrape_titles():
     article_titles = driver.find_elements(By.CSS_SELECTOR, ".mCBkyc.ynAwRc.MBeuO.nDgy9d")
     return article_titles[:3]
 
+
+def scrape_blurb():
+    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".GI74Re.nDgy9d")))
+    article_blurbs = driver.find_elements(By.CSS_SELECTOR, ".GI74Re.nDgy9d")
+    return article_blurbs[:3]
 
 def scrape_dates():
     wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".OSrXXb.ZE0LJd.YsWzw")))
@@ -87,8 +97,10 @@ def main():
             url_element = scrape_urls()
             title_element = scrape_titles()
             date_element = scrape_dates()
-            for url, title, date in zip(url_element, title_element, date_element):
+            blurb_element = scrape_blurb()
+            for url, title, blurb, date in zip(url_element, title_element, blurb_element, date_element):
                 f.write(f'{get_title(title)}\n')
+                f.write(f'{get_blurb(blurb)}\n')
                 f.write(f'{get_date(date)}\n')
                 f.write(f'{get_url(url)}\n\n')
             f.write('\n\n\n')
