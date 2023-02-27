@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import os
 
 
 my_tickers = [
@@ -114,4 +115,4 @@ with open('summaries.html', 'a') as f:     # main
         f.write('<br>')
     f.close()
 
-
+os.system("start file:///C:/Users/Black%20Swift%20Desktop/Desktop/Python/Work%20Automation/summaries.html")
