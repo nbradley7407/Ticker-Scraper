@@ -5,30 +5,33 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+
 my_tickers = [
-    "HAE",
-    "DXCM",
-    "AMT",
-    "AA",
-    "BIIB",
-    "CVX",
-    "DVA",
-    "FCX",
-    "FLR",
-    "FWONK",
-    "KKR",
-    "MDXG",
-    "NNOX",
-    "NSRGY",
-    "NWPX",
-    "OXY",
-    "RIG",
-    "SACH",
-    "TDW",
-    "VAL",
-    "VLO",
-    "WIRE",
-    "WSO",
+    "AAPL",
+    "ADBE",
+    "AMZN",
+    "ARKK",
+    "ASLE",
+    "ASML",
+    "CCCS",
+    "CVNA",
+    "DCBO",
+    "F",
+    "GOOGL",
+    "HD",
+    "INTA",
+    "MBLY",
+    "NKE",
+    "NRDS",
+    "PSTG",
+    "PTON",
+    "SMCI",
+    "SMH",
+    "SSNC",
+    "TSLA",
+    "TSM",
+    "RBLX",
+    "PERI",
 ]
 
 # initiate driver
@@ -39,13 +42,14 @@ wait = WebDriverWait(driver, 60.0)
 
 
 def get_title(element):
-    title = element.get_attribute("innerHTML")
-    return title
+    title_string = element.get_attribute("innerHTML")
+    return title_string
 
 
 def get_url(element):
     url_string = element.get_attribute('href')
     return url_string
+
 
 def get_blurb(element):
     blurb_string = element.get_attribute("innerHTML")
@@ -56,20 +60,24 @@ def get_date(element):
     date_string = element.get_attribute("innerHTML")
     return date_string
 
+
 def scrape_dates():
     wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".OSrXXb.ZE0LJd.YsWzw")))
     article_dates = driver.find_elements(By.CSS_SELECTOR, ".OSrXXb.ZE0LJd.YsWzw")
     return article_dates[:3]
+
 
 def scrape_blurb():
     wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".GI74Re.nDgy9d")))
     article_blurbs = driver.find_elements(By.CSS_SELECTOR, ".GI74Re.nDgy9d")
     return article_blurbs[:3]
 
+
 def scrape_titles():
     wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".mCBkyc.ynAwRc.MBeuO.nDgy9d")))
     article_titles = driver.find_elements(By.CSS_SELECTOR, ".mCBkyc.ynAwRc.MBeuO.nDgy9d")
     return article_titles[:3]
+
 
 def scrape_urls():
     wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "WlydOe")))
@@ -104,4 +112,6 @@ with open('summaries.html', 'a') as f:     # main
             f.write('</h4>&nbsp&nbsp&nbsp&nbsp&nbsp')
             f.write(f'{get_date(date)}\n')
         f.write('<br>')
-f.close()
+    f.close()
+
+
