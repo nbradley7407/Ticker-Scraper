@@ -62,20 +62,20 @@ def get_date(element):
 
 
 def scrape_dates():
-    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".OSrXXb.ZE0LJd.YsWzw")))
-    article_dates = driver.find_elements(By.CSS_SELECTOR, ".OSrXXb.ZE0LJd.YsWzw")
+    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".YsWzw")))
+    article_dates = driver.find_elements(By.CSS_SELECTOR, ".YsWzw")
     return article_dates[:3]
 
 
 def scrape_blurb():
-    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".GI74Re.nDgy9d")))
-    article_blurbs = driver.find_elements(By.CSS_SELECTOR, ".GI74Re.nDgy9d")
+    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".nDgy9d")))
+    article_blurbs = driver.find_elements(By.CSS_SELECTOR, ".nDgy9d")
     return article_blurbs[:3]
 
 
 def scrape_titles():
-    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".mCBkyc.ynAwRc.MBeuO.nDgy9d")))
-    article_titles = driver.find_elements(By.CSS_SELECTOR, ".mCBkyc.ynAwRc.MBeuO.nDgy9d")
+    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".nDgy9d")))
+    article_titles = driver.find_elements(By.CSS_SELECTOR, ".nDgy9d")
     return article_titles[:3]
 
 
