@@ -94,7 +94,7 @@ with open('summaries.html', 'a') as f:     # main
                    f'=nws&source=lnt&tbs=sbd:1&sa=X&ved=2ahUKEwitoYTL16n9AhVNP'
                    f'n0KHbyMBE4QpwV6BAgBECE&biw=2067&bih=2007&dpr=1')
         f.write('<br><br>'+('_'*150))
-        f.write(f'<h1><p style="color:green; margin-left:150px;">')
+        f.write(f'<h1><p style="color:green; margin-left:50px;">')
         f.write(f'{i}\n')
         f.write('</p></h1>')
         url_element = scrape_urls()
@@ -102,17 +102,16 @@ with open('summaries.html', 'a') as f:     # main
         blurb_element = scrape_blurb()
         date_element = scrape_dates()
         for url, title, blurb, date in zip(url_element, title_element, blurb_element, date_element):
-            f.write(f'<h3 style="margin-left:150px"><a href="')
-            f.write(f'{get_url(url)}\n\n')
-            f.write('">')
+            f.write(f'<h3 style="margin-left:50px"><a href="')
+            f.write(f'{get_url(url)}\n\n">')
             f.write(f'{get_title(title)}\n')
-            f.write(f'</a></h3><h4 style="margin-left:150px">')
+            f.write(f'</a></h3><h4 style="margin-left:50px">')
             try:
                 f.write(f'{get_blurb(blurb)}\n')
             except UnicodeEncodeError:
                 pass
-            f.write(f'</h4 style="margin-left:150px">')
-            f.write(f'{get_date(date)}\n')
+            f.write(f'</h4>')
+            f.write(f'<p style="margin-left:50px"{get_date(date)}\n</p>')
         f.write('<br>')
     f.close()
 
