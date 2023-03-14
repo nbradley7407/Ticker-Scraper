@@ -42,26 +42,8 @@ wait = WebDriverWait(driver, 60.0)
 # How many articles to grab
 num_articles = 5
 
-def get_title(element):
-    title_string = element.get_attribute("innerHTML")
-    return title_string
 
-
-def get_url(element):
-    url_string = element.get_attribute('href')
-    return url_string
-
-
-def get_blurb(element):
-    blurb_string = element.get_attribute("innerHTML")
-    return blurb_string
-
-
-def get_date(element):
-    date_string = element.get_attribute("innerHTML")
-    return date_string
-
-
+# grab elements
 def scrape_dates():
     wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".YsWzw")))
     article_dates = driver.find_elements(By.CSS_SELECTOR, ".YsWzw")
@@ -84,6 +66,27 @@ def scrape_urls():
     wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "WlydOe")))
     article_urls = driver.find_elements(By.CLASS_NAME, "WlydOe")
     return article_urls[:num_articles]
+
+
+# grab details
+def get_title(element):
+    title_string = element.get_attribute("innerHTML")
+    return title_string
+
+
+def get_url(element):
+    url_string = element.get_attribute('href')
+    return url_string
+
+
+def get_blurb(element):
+    blurb_string = element.get_attribute("innerHTML")
+    return blurb_string
+
+
+def get_date(element):
+    date_string = element.get_attribute("innerHTML")
+    return date_string
 
 
 with open('summaries.html', 'w') as f:     # clear the text file
