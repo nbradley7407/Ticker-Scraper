@@ -94,15 +94,14 @@ with open('summaries.html', 'w') as f:     # clear the text file
 
 with open('summaries.html', 'a', encoding='utf-8') as f:     # main
     for i in my_tickers:
-        driver.get(f'https://www.google.com/search?q={i}+stock&hl=en&tbm'
-                   f'=nws&source=lnt&tbs=sbd:1&sa=X&ved=2ahUKEwitoYTL16n9AhVNP'
-                   f'n0KHbyMBE4QpwV6BAgBECE&biw=2067&bih=2007&dpr=1')
+        current_url = f'https://www.google.com/search?q={i}+stock&hl=en&tbm'\
+                      f'=nws&source=lnt&tbs=sbd:1&sa=X&ved=2ahUKEwitoYTL16n9AhVNP'\
+                      f'n0KHbyMBE4QpwV6BAgBECE&biw=2067&bih=2007&dpr=1'
+        driver.get(current_url)
         f.write('<br><br>'+('_'*150))
-        f.write(f'<h1><a href="https://www.google.com/search?q={i}+stock&hl=en&tbm'
-                   f'=nws&source=lnt&tbs=sbd:1&sa=X&ved=2ahUKEwitoYTL16n9AhVNP'
-                   f'n0KHbyMBE4QpwV6BAgBECE&biw=2067&bih=2007&dpr=1"><p style="color:green; margin-left:50px;">')
+        f.write(f'<h1><p style="margin-left:50px";><a href="{current_url}"; style="color:green;">')
         f.write(f'{i}\n')
-        f.write('</p></a></h1>')
+        f.write('</a></p></h1>')
         url_element = scrape_urls()
         title_element = scrape_titles()
         blurb_element = scrape_blurb()
