@@ -39,6 +39,8 @@ service.start()
 driver = webdriver.Remote(service.service_url)
 wait = WebDriverWait(driver, 60.0)
 
+# How many articles to grab
+num_articles = 5
 
 def get_title(element):
     title_string = element.get_attribute("innerHTML")
@@ -63,25 +65,25 @@ def get_date(element):
 def scrape_dates():
     wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".YsWzw")))
     article_dates = driver.find_elements(By.CSS_SELECTOR, ".YsWzw")
-    return article_dates[:3]
+    return article_dates[:num_articles]
 
 
 def scrape_blurb():
     wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".nDgy9d")))
     article_blurbs = driver.find_elements(By.CSS_SELECTOR, ".nDgy9d")
-    return article_blurbs[:3]
+    return article_blurbs[:num_articles]
 
 
 def scrape_titles():
     wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".nDgy9d")))
     article_titles = driver.find_elements(By.CSS_SELECTOR, ".nDgy9d")
-    return article_titles[:3]
+    return article_titles[:num_articles]
 
 
 def scrape_urls():
     wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "WlydOe")))
     article_urls = driver.find_elements(By.CLASS_NAME, "WlydOe")
-    return article_urls[:3]
+    return article_urls[:num_articles]
 
 
 with open('summaries.html', 'w') as f:     # clear the text file
