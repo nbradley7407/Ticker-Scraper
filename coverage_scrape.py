@@ -88,7 +88,7 @@ def scrape_urls():
 with open('summaries.html', 'w') as f:     # clear the text file
     f.close()
 
-with open('summaries.html', 'a') as f:     # main
+with open('summaries.html', 'a', encoding='utf-8') as f:     # main
     for i in my_tickers:
         driver.get(f'https://www.google.com/search?q={i}+stock&hl=en&tbm'
                    f'=nws&source=lnt&tbs=sbd:1&sa=X&ved=2ahUKEwitoYTL16n9AhVNP'
