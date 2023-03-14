@@ -7,31 +7,30 @@ from selenium.webdriver.support import expected_conditions as EC
 import os
 
 
-my_tickers = [
-    "AAPL",
-    "ADBE",
-    "AMZN",
-    "ARKK",
-    "ASLE",
-    "ASML",
-    "CCCS",
-    "CVNA",
-    "DCBO",
-    "GOOGL",
-    "Home Depot",
-    "INTA",
-    "MBLY",
-    "NKE",
-    "NVDA",
-    "OI",
-    "PERI",
-    "PTON",
-    "SMCI",
-    "SMH",
-    "SSNC",
-    "TSLA",
-    "TSMC",
-    "RBLX",
+my_tickers = ["AAPL",
+              "AMD",
+              "NVDA",
+              "AMZN",
+              "ASLE",
+              "ASML",
+              "CCCS",
+              "CVNA",
+              "DCBO",
+              "GOOG",
+              "GOOGL",
+              "Home Depot",
+              "INTA",
+              "MSFT",
+              "NKE",
+              "OI",
+              "PERI",
+              "PTON",
+              "RBLX",
+              "SMCI",
+              "SMH",
+              "SSNC",
+              "TSLA",
+              "TSM",
 ]
 
 # initiate driver
@@ -94,9 +93,11 @@ with open('summaries.html', 'a', encoding='utf-8') as f:     # main
                    f'=nws&source=lnt&tbs=sbd:1&sa=X&ved=2ahUKEwitoYTL16n9AhVNP'
                    f'n0KHbyMBE4QpwV6BAgBECE&biw=2067&bih=2007&dpr=1')
         f.write('<br><br>'+('_'*150))
-        f.write(f'<h1><p style="color:green; margin-left:50px;">')
+        f.write(f'<h1><a href="https://www.google.com/search?q={i}+stock&hl=en&tbm'
+                   f'=nws&source=lnt&tbs=sbd:1&sa=X&ved=2ahUKEwitoYTL16n9AhVNP'
+                   f'n0KHbyMBE4QpwV6BAgBECE&biw=2067&bih=2007&dpr=1"><p style="color:green; margin-left:50px;">')
         f.write(f'{i}\n')
-        f.write('</p></h1>')
+        f.write('</p></a></h1>')
         url_element = scrape_urls()
         title_element = scrape_titles()
         blurb_element = scrape_blurb()
