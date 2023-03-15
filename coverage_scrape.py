@@ -1,16 +1,8 @@
-from selenium import webdriver
-from selenium.common.exceptions import StaleElementReferenceException
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-import os
-
+from requests_html import HTMLSession
 
 my_tickers = ["AAPL",
-              "AMD",
-              "NVDA",
               "AMZN",
+              "ARRY",
               "ASLE",
               "ASML",
               "CCCS",
@@ -18,10 +10,12 @@ my_tickers = ["AAPL",
               "DCBO",
               "GOOG",
               "GOOGL",
-              "Home Depot",
+              "HD",
               "INTA",
+              "IWF",
               "MSFT",
               "NKE",
+              "NVDA",
               "OI",
               "PERI",
               "PTON",
@@ -34,91 +28,42 @@ my_tickers = ["AAPL",
               ]
 
 
-# grab element data
-def _scrape_dates():
-    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".YsWzw")))
-    article_dates = driver.find_elements(By.CSS_SELECTOR, ".YsWzw")
-    return article_dates[:num_articles]
-
-
-def _scrape_blurb():
-    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".nDgy9d")))
-    article_blurbs = driver.find_elements(By.CSS_SELECTOR, ".nDgy9d")
-    return article_blurbs[:num_articles]
-
-
-def _scrape_titles():
-    wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".nDgy9d")))
-    article_titles = driver.find_elements(By.CSS_SELECTOR, ".nDgy9d")
-    return article_titles[:num_articles]
-
-
-def _scrape_urls():
-    wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "WlydOe")))
-    article_urls = driver.find_elements(By.CLASS_NAME, "WlydOe")
-    return article_urls[:num_articles]
-
-
-# grab data from elements
-def _get_title(element):
-    title_string = element.get_attribute("innerHTML")
-    return title_string
-
-
-def _get_url(element):
-    url_string = element.get_attribute('href')
-    return url_string
-
-
-def _get_blurb(element):
-    blurb_string = element.get_attribute("innerHTML")
-    return blurb_string
-
-
-def _get_date(element):
-    date_string = element.get_attribute("innerHTML")
-    return date_string
-
-
 def main():
     with open('summaries.html', 'w') as f:     # clear the text file
         f.close()
 
     with open('summaries.html', 'a', encoding='utf-8') as f:     # main
+        session = HTMLSession()
         for i in my_tickers:
             current_url = f'https://www.google.com/search?q={i}+stock&hl=en&tbm'\
                           f'=nws&source=lnt&tbs=sbd:1&sa=X&ved=2ahUKEwitoYTL16n9AhVNP'\
                           f'n0KHbyMBE4QpwV6BAgBECE&biw=2067&bih=2007&dpr=1'
-            driver.get(current_url)
+            response = session.get(current_url)
             f.write('<br><br>'+('_'*150))
             f.write(f'<h1><p style="margin-left:50px";><a href="{current_url}"; style="color:green;">')
             f.write(f'{i}\n')
             f.write('</a></p></h1>')
-            url_element = _scrape_urls()
-            title_element = _scrape_titles()
-            blurb_element = _scrape_blurb()
-            date_element = _scrape_dates()
-            for url, title, blurb, date in zip(url_element, title_element, blurb_element, date_element):
+            url_elements = response.html.find('.WlydOe')[:5]
+            title_elements = response.html.find('.nDgy9d')[:5]
+            blurb_elements = response.html.find('.nDgy9d')[:5]
+            date_elements = response.html.find('.YsWzw')[:5]
+            for url_element, title_element, blurb_element, date_element in zip(url_elements, title_elements, blurb_elements, date_elements):
                 f.write(f'<h3 style="margin-left:50px"><a href="')
-                f.write(f'{_get_url(url)}\n\n">')
-                f.write(f'{_get_title(title)}\n')
+                f.write(f'{url_element.absolute_links.pop()}\n\n">')
+                f.write(f'{title_element.text}\n')
                 f.write(f'</a></h3><h4 style="margin-left:50px">')
                 try:
-                    f.write(f'{_get_blurb(blurb)}\n')
+                    f.write(f'{blurb_element.text}\n')
                 except UnicodeEncodeError:
                     pass
                 f.write(f'</h4>')
-                f.write(f'<p style="margin-left:50px"{_get_date(date)}\n</p>')
+                f.write(f'<p style="margin-left:50px">{date_element.text}\n</p>')
             f.write('<br>')
         f.close()
 
-    os.system("start file:///C:/Users/Black%20Swift%20Desktop/Desktop/Python/Work%20Automation/summaries.html")
+    import webbrowser
+    webbrowser.open('summaries.html')
 
 
 if __name__ == "__main__":
-    service = Service('chromedriver.exe')
-    service.start()
-    driver = webdriver.Remote(service.service_url)
-    wait = WebDriverWait(driver, 60.0)
-    num_articles = 5
     main()
