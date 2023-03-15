@@ -43,10 +43,10 @@ def main():
             f.write(f'<h1><p style="margin-left:50px";><a href="{current_url}"; style="color:green;">')
             f.write(f'{i}\n')
             f.write('</a></p></h1>')
-            url_elements = response.html.find('.WlydOe')[:5]
-            title_elements = response.html.find('.nDgy9d')[:5]
-            blurb_elements = response.html.find('.nDgy9d')[:5]
-            date_elements = response.html.find('.YsWzw')[:5]
+            url_elements = response.html.find('.WlydOe')[:num_articles ]
+            title_elements = response.html.find('.nDgy9d')[:num_articles ]
+            blurb_elements = response.html.find('.nDgy9d')[:num_articles ]
+            date_elements = response.html.find('.YsWzw')[:num_articles ]
             for url_element, title_element, blurb_element, date_element in zip(url_elements, title_elements, blurb_elements, date_elements):
                 f.write(f'<h3 style="margin-left:50px"><a href="')
                 f.write(f'{url_element.absolute_links.pop()}\n\n">')
@@ -66,4 +66,5 @@ def main():
 
 
 if __name__ == "__main__":
+    num_articles = 5
     main()
