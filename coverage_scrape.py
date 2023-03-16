@@ -25,6 +25,7 @@ my_tickers = ["AAPL",
               "SSNC",
               "TSLA",
               "TSM",
+              "MSFT",
               ]
 
 
@@ -45,9 +46,10 @@ def main():
             f.write('</a></p></h1>')
             url_elements = response.html.find('.WlydOe')[:num_articles ]
             title_elements = response.html.find('.mCBkyc.ynAwRc.MBeuO.nDgy9d')[:num_articles ]
-            blurb_elements = response.html.find('.mCBkyc.ynAwRc.MBeuO.nDgy9d')[:num_articles ]
+            blurb_elements = response.html.find('.GI74Re.nDgy9d')[:num_articles ]
             date_elements = response.html.find('.YsWzw')[:num_articles ]
-            for url_element, title_element, blurb_element, date_element in zip(url_elements, title_elements, blurb_elements, date_elements):
+            for url_element, title_element, blurb_element, date_element in zip(url_elements, title_elements,
+                                                                               blurb_elements, date_elements):
                 f.write(f'<h3 style="margin-left:50px"><a href="')
                 f.write(f'{url_element.absolute_links.pop()}\n\n">')
                 f.write(f'{title_element.text}\n')
