@@ -1,4 +1,5 @@
 from requests_html import HTMLSession
+import webbrowser
 
 my_tickers = ["AAPL",
               "AMZN",
@@ -63,7 +64,6 @@ def main():
             f.write('<br>')
         f.close()
 
-    import webbrowser
     webbrowser.open('summaries.html')
 
 
