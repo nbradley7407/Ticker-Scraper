@@ -16,12 +16,6 @@ def save_tickers(tickers):
         f.write('\n'.join(tickers))
 
 
-def clear_tickers():
-    with open("tickers.txt", "w") as f:
-        f.write("")
-    print("Tickers file cleared.")
-
-
 def main():
     # prompt the user for input of num_articles
     num_articles = int(input("Enter the number of articles to retrieve for each ticker: "))
@@ -58,6 +52,7 @@ def main():
                             break
                         if ticker in my_tickers:
                             my_tickers.remove(ticker)
+                            print(f"{ticker} removed from list.")
                         else:
                             print(f"Ticker '{ticker}' not found in list")
 
