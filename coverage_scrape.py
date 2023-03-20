@@ -31,7 +31,7 @@ my_tickers = ["AAPL",
 
 
 def main():
-    with open('summaries.html', 'a', encoding='utf-8') as f:     # main
+    with open('summaries.html', 'w', encoding='utf-8') as f:     # main
         session = HTMLSession()
         for i in my_tickers:
             current_url = f'https://www.google.com/search?q={i}+stock&hl=en&tbm'\
