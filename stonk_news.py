@@ -16,16 +16,6 @@ def save_tickers(tickers):
         f.write('\n'.join(tickers))
 
 
-def remove_ticker():
-    with open("tickers.txt", "r") as f:
-        lines = f.readlines()
-    with open("tickers.txt", "w") as f:
-        for line in lines:
-            if ticker_to_remove not in line:
-                f.write(line)
-    print(f"{ticker_to_remove} removed from tickers file.")
-
-
 def clear_tickers():
     with open("tickers.txt", "w") as f:
         f.write("")
@@ -40,14 +30,17 @@ def main():
     my_tickers = get_tickers()
     while True:
         action = input("1) What would you like to do? ('r' to run, 'e' to edit ticker list): ")
+
         if action.lower() == 'e':
             while True:
                 sub_action = input("2) Would you like to add or delete tickers? "
                                    "('p' to show list, 'a' to add, 'd' to delete, 'c' to clear, 's' to save): ")
+
                 if sub_action.lower() == 's':
                     save_tickers(my_tickers)
                     print(f"{len(my_tickers)} tickers in '{TICKER_FILE}'")
                     break
+
                 elif sub_action.lower() == 'a':
                     while True:
                         ticker = input("3) Enter ticker to add (or 'q' to quit): ").upper()
@@ -57,6 +50,7 @@ def main():
                             print(f"{ticker} is already in your list")
                         else:
                             my_tickers.append(ticker)
+
                 elif sub_action.lower() == 'd':
                     while True:
                         ticker = input("3) Enter ticker to delete (or 'q' to quit): ").upper()
@@ -66,13 +60,17 @@ def main():
                             my_tickers.remove(ticker)
                         else:
                             print(f"Ticker '{ticker}' not found in list")
+
                 elif sub_action.lower() == 'c':
                     my_tickers = []
                     print("Ticker list cleared")
+
                 elif sub_action.lower() == 'p':
                     print(list(my_tickers))
+
                 else:
                     print("Invalid input")
+
         elif action.lower() == 'r':
             break
 
