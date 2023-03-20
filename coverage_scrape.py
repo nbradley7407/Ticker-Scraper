@@ -31,9 +31,6 @@ my_tickers = ["AAPL",
 
 
 def main():
-    with open('summaries.html', 'w') as f:     # clear the text file
-        f.close()
-
     with open('summaries.html', 'a', encoding='utf-8') as f:     # main
         session = HTMLSession()
         for i in my_tickers:
