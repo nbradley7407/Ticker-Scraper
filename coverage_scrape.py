@@ -1,5 +1,5 @@
 from requests_html import HTMLSession
-import webbrowser
+import os
 
 my_tickers = ["AAPL",
               "AMZN",
@@ -61,7 +61,7 @@ def main():
             f.write('<br>')
         f.close()
 
-    webbrowser.open('summaries.html')
+    os.startfile('summaries.html')
 
 
 if __name__ == "__main__":
