@@ -23,7 +23,7 @@ def main():
     # prompt the user for input of tickers
     my_tickers = get_tickers()
     while True:
-        ticker = input(f"Enter a ticker symbol (or 'q' to quit, 's' to save): ")
+        ticker = input(f"Enter a ticker symbol (or 'r' to run, 's' to save): ")
         if ticker.lower() == 'q':
             break
         elif ticker.lower() == 's':
