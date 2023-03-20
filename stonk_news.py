@@ -39,27 +39,33 @@ def main():
     # prompt the user for input of tickers
     my_tickers = get_tickers()
     while True:
-        action = input("What would you like to do? ('r' to run, 'e' to edit ticker list): ")
+        action = input("1) What would you like to do? ('r' to run, 'e' to edit ticker list): ")
         if action.lower() == 'e':
             while True:
-                sub_action = input("Would you like to add or delete tickers? "
+                sub_action = input("2) Would you like to add or delete tickers? "
                                    "('p' to show list, 'a' to add, 'd' to delete, 'c' to clear, 's' to save): ")
                 if sub_action.lower() == 's':
                     save_tickers(my_tickers)
                     print(f"{len(my_tickers)} tickers in '{TICKER_FILE}'")
                     break
                 elif sub_action.lower() == 'a':
-                    ticker = input("Enter ticker to add: ").upper()
-                    if ticker in my_tickers:
-                        print(f"{ticker} is already in your list")
-                    else:
-                        my_tickers.append(ticker)
+                    while True:
+                        ticker = input("3) Enter ticker to add (or 'q' to quit): ").upper()
+                        if ticker == 'Q':
+                            break
+                        elif ticker in my_tickers:
+                            print(f"{ticker} is already in your list")
+                        else:
+                            my_tickers.append(ticker)
                 elif sub_action.lower() == 'd':
-                    ticker = input("Enter ticker to delete: ").upper()
-                    if ticker in my_tickers:
-                        my_tickers.remove(ticker)
-                    else:
-                        print(f"Ticker '{ticker}' not found in list")
+                    while True:
+                        ticker = input("3) Enter ticker to delete (or 'q' to quit): ").upper()
+                        if ticker == 'Q':
+                            break
+                        if ticker in my_tickers:
+                            my_tickers.remove(ticker)
+                        else:
+                            print(f"Ticker '{ticker}' not found in list")
                 elif sub_action.lower() == 'c':
                     my_tickers = []
                     print("Ticker list cleared")
