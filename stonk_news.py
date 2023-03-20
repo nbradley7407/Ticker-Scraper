@@ -1,7 +1,6 @@
 from requests_html import HTMLSession
-import subprocess
+import webbrowser
 import os
-import platform
 
 TICKER_FILE = 'tickers.txt'
 
@@ -101,13 +100,7 @@ def main():
             f.write('<br>')
         f.close()
 
-    if platform.system() == 'Darwin':                      # macOS
-        subprocess.call(('open', 'summaries.html'))
-    elif platform.system() == 'Windows':                   # Windows
-        os.startfile('summaries.html')
-    else:                                                  # linux variants
-        subprocess.call(('xdg-open', 'summaries.html'))
-
 
 if __name__ == "__main__":
     main()
+    webbrowser.open('summaries.html')
