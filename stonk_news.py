@@ -16,6 +16,22 @@ def save_tickers(tickers):
         f.write('\n'.join(tickers))
 
 
+def remove_ticker():
+    with open("tickers.txt", "r") as f:
+        lines = f.readlines()
+    with open("tickers.txt", "w") as f:
+        for line in lines:
+            if ticker_to_remove not in line:
+                f.write(line)
+    print(f"{ticker_to_remove} removed from tickers file.")
+
+
+def clear_tickers():
+    with open("tickers.txt", "w") as f:
+        f.write("")
+    print("Tickers file cleared.")
+
+
 def main():
     # prompt the user for input of num_articles
     num_articles = int(input("Enter the number of articles to retrieve for each ticker: "))
@@ -23,14 +39,36 @@ def main():
     # prompt the user for input of tickers
     my_tickers = get_tickers()
     while True:
-        ticker = input(f"Enter a ticker symbol (or 'r' to run, 's' to save): ")
-        if ticker.lower() == 'q':
+        action = input("What would you like to do? ('r' to run, 'e' to edit ticker list): ")
+        if action.lower() == 'e':
+            while True:
+                sub_action = input("Would you like to add or delete tickers? "
+                                   "('p' to show list, 'a' to add, 'd' to delete, 'c' to clear, 's' to save): ")
+                if sub_action.lower() == 's':
+                    save_tickers(my_tickers)
+                    print(f"{len(my_tickers)} tickers in '{TICKER_FILE}'")
+                    break
+                elif sub_action.lower() == 'a':
+                    ticker = input("Enter ticker to add: ").upper()
+                    if ticker in my_tickers:
+                        print(f"{ticker} is already in your list")
+                    else:
+                        my_tickers.append(ticker)
+                elif sub_action.lower() == 'd':
+                    ticker = input("Enter ticker to delete: ").upper()
+                    if ticker in my_tickers:
+                        my_tickers.remove(ticker)
+                    else:
+                        print(f"Ticker '{ticker}' not found in list")
+                elif sub_action.lower() == 'c':
+                    my_tickers = []
+                    print("Ticker list cleared")
+                elif sub_action.lower() == 'p':
+                    print(list(my_tickers))
+                else:
+                    print("Invalid input")
+        elif action.lower() == 'r':
             break
-        elif ticker.lower() == 's':
-            save_tickers(my_tickers)
-            print(f"Saved {len(my_tickers)} tickers to '{TICKER_FILE}'")
-        else:
-            my_tickers.append(ticker.upper())
 
     with open('summaries.html', 'w', encoding='utf-8') as f:     # main
         session = HTMLSession()
@@ -66,5 +104,4 @@ def main():
 
 
 if __name__ == "__main__":
-    num_articles = 5
     main()
